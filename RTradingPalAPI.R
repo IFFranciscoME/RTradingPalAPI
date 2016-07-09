@@ -60,24 +60,3 @@ DelDesTrd1 <- function(){}
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetSymbolF <- function(){}
-
-# -- ------------------------------------------------------------------------------ -- #
-# -- ------------------------------------------------------------------- Function 1 -- #
-# -- ------------------------------------------------------------------------------ -- #
-
-GetHistPrices <- function(AccountType,Token,AccountID) {
-  if(AccountType == "practice"){
-    httpaccount <- "https://api-fxpractice.oanda.com"
-  } else 
-    if(AccountType == "live"){
-      httpaccount <- "https://api-fxtrade.oanda.com"
-    } else print("Account type error. Must be practice or live")
-  
-  auth       <- c(Authorization = paste("Bearer",Token,sep=" "))
-  Queryhttp  <- paste(httpaccount,"/v1/instruments?accountId=",sep="")
-  QueryInst  <- paste(Queryhttp,AccountID,sep="")
-  QueryInst1 <- getURL(QueryInst,cainfo=system.file("CurlSSL","cacert.pem",
-                package="RCurl"),httpheader=auth)
-  InstJson <- fromJSON(QueryInst1, simplifyDataFrame = TRUE)
-  return(InstJson)
-}
