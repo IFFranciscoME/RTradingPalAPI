@@ -45,7 +45,16 @@ return(DataM)
 # -- -------------------------------------------------------------- GET /[symbol] --2- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-GetSymbol <- function(){}
+GetSymbol <- function(Instrument){
+  Tiemp <- Sys.time()
+  http  <- "www.tradingpal.com/api/instruments/"
+  httpF <- paste(http,Instrument,sep="")
+  Query <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
+  RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
+  DataM <- data.frame(Instrument,Tiemp,RJson$data$bid,RJson$data$ask)
+  colnames(DataM) <- c("Instrumento","TimeStamp","Bid","Ask")
+  return(DataM)
+}
 
 # -- Obtener Precios Historicos de Instrumento ---------------------------------- ---- #
 # -- ---------------- GET /[symbol]/chart?period=[period]&from=[from]&till=[till] --3- #
@@ -57,13 +66,31 @@ GetSymbolH <- function(){}
 # -- ------------------------------- GET /active Description Return active trades --4- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-GetTrades <- function(){}
+GetTrades <- function(UserID){
+  http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
+  httpF <- paste(http1,"/trades",sep="")
+  Query <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
+  RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
+  RJson
+  return(RJson)
+}
 
 # -- Obtener Informacion de una Operacion Particular ---------------------------- ---- #
 # -- -- GET /[tradeID] || [ticket] Description Returns trade by tradeID or Ticket --5- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-GetTradeID <- function(){}
+GetTradeID <- function(){
+  
+  ID1 <- 6542137
+  ID2 <- 9632954
+  
+  http1 <- "http://www.tradingpal.com/api"
+  Query <- getURL(http, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
+  RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
+  RJson
+  
+  return(RJson)
+}
 
 # -- Modificar TakeProfit y StopLoss de una Operacion --------------------------- ---- #
 # -- -------------------- PUT /[tradeID]?sl=[sl]&tp=[tp] Description Update trade --6- #
