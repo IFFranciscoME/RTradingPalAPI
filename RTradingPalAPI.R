@@ -75,8 +75,42 @@ GetTrades <- function(UserID){
   return(RJson)
 }
 
+# -- Obtener Historico de Operaciones Por Trader -------------------------------- ---- #
+# --  GET /users/[uID]/trades/closed Description Returns close trades by traderID --5- #
+# -- ---------------------------------------------------------------------------- ---- #
+
+GetTradersHist <- function(UserID){
+  http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
+  httpF  <- paste(http1,"/trades/closed",sep="")
+  Query  <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
+  RJson  <- fromJSON(Query, simplifyDataFrame = TRUE)
+  
+  DataM <- data.frame(RJson$id,RJson$op_type,RJson$symbol,
+                      as.POSIXct(as.numeric(RJson$open$time)/1000, origin = "1970-01-01"),
+                      RJson$open$price,
+                      as.POSIXct(as.numeric(RJson$close$time)/1000, origin = "1970-01-01"),
+                      RJson$close$price,
+                      round(RJson$result$period/1000,1),
+                      RJson$result$pnl_currency,RJson$result$pnl_pips,
+                      RJson$lots,RJson$margin,RJson$free_margin,
+                      RJson$sl,RJson$tp,
+                      RJson$open$amount_risk_per_point, RJson$open$risk_in_pips,
+                      RJson$user, RJson$from, RJson$copy_to, RJson$joint, RJson$joint_trade)
+  colnames(DataM) <- c("OrderID","OrderType","Symbol",
+                       "Open.TimeStamp","Open.Price",
+                       "Close.TimeStamp","Close.Price",
+                       "OrderDurationInSecs",
+                       "PL.Currency","PL.Pips",
+                       "Lots","OrderMargin","AccountFreeMargin",
+                       "StopLoss","TakeProfit",
+                       "RisPerPoint","RiskInPips",
+                       "UserID","CopyFrom","CopyTo","Joint","JointOrder")
+}
+
+Hist1 <- GetTradersHist("01518e77-dcca-44e3-ad21-e9b7a4ac998d")
+
 # -- Obtener Informacion de una Operacion Particular ---------------------------- ---- #
-# -- -- GET /[tradeID] || [ticket] Description Returns trade by tradeID or Ticket --5- #
+# -- -- GET /[tradeID] || [ticket] Description Returns trade by tradeID or Ticket --6- #
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetTradeID <- function(){
@@ -93,25 +127,25 @@ GetTradeID <- function(){
 }
 
 # -- Modificar TakeProfit y StopLoss de una Operacion --------------------------- ---- #
-# -- -------------------- PUT /[tradeID]?sl=[sl]&tp=[tp] Description Update trade --6- #
+# -- -------------------- PUT /[tradeID]?sl=[sl]&tp=[tp] Description Update trade --7- #
 # -- ---------------------------------------------------------------------------- ---- #
 
 PutDesTrd1 <- function(){}
 
 # -- Abrir una Operacion -------------------------------------------------------- ---- #
-# -- --------------------------- POST /?token=[token] Descriptions Open new trade --7- #
+# -- --------------------------- POST /?token=[token] Descriptions Open new trade --8- #
 # -- ---------------------------------------------------------------------------- ---- #
 
 PutDesTrd2 <- function(){}
 
 # -- Cerrar una Operacion ------------------------------------------------------- ---- #
-# -- -------------------- DELETE /[tradeID]?token=[token] Description Close trade --8- #
+# -- -------------------- DELETE /[tradeID]?token=[token] Description Close trade --9- #
 # -- ---------------------------------------------------------------------------- ---- #
 
 DelDesTrd1 <- function(){}
 
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
-# -- ------------------------------------------- GET /[symbol]/feed?token=[token] --9- #
+# -- ------------------------------------------ GET /[symbol]/feed?token=[token] --10- #
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetSymbolF <- function(){}
