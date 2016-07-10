@@ -107,24 +107,11 @@ GetTradersHist <- function(UserID){
                        "UserID","CopyFrom","CopyTo","Joint","JointOrder")
 }
 
-Hist1 <- GetTradersHist("01518e77-dcca-44e3-ad21-e9b7a4ac998d")
-
 # -- Obtener Informacion de una Operacion Particular ---------------------------- ---- #
 # -- -- GET /[tradeID] || [ticket] Description Returns trade by tradeID or Ticket --6- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-GetTradeID <- function(){
-  
-  ID1 <- 6542137
-  ID2 <- 9632954
-  
-  http1 <- "http://www.tradingpal.com/api"
-  Query <- getURL(http, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
-  RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
-  RJson
-  
-  return(RJson)
-}
+GetTradeID <- function(){}
 
 # -- Modificar TakeProfit y StopLoss de una Operacion --------------------------- ---- #
 # -- -------------------- PUT /[tradeID]?sl=[sl]&tp=[tp] Description Update trade --7- #
