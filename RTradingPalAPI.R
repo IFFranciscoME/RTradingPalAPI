@@ -32,11 +32,9 @@ RetJson <- fromJSON(Query, simplifyDataFrame = TRUE)
 
 UserId <- RetJson$uid
 Token  <- RetJson$token
-TokenE <- as.POSIXct(RetJson$auth$token$exp, origin ="1970-01-01")
-
 DataM  <- data.frame(RetJson$uid,RetJson$token,
-                    as.POSIXct(RetJson$auth$token$auth_time, origin = "1970-01-01"),
-                    as.POSIXct(RetJson$expires, origin = "1970-01-01"))
+                    RetJson$auth$token$auth_time,
+                    RetJson$expires)
 colnames(DataM) <- c("UserId","Token","AuthTime","AuthExp")
 return(DataM)
 }
@@ -59,6 +57,8 @@ GetSymbol <- function(Instrument){
 # -- Obtener Precios Historicos de Instrumento ---------------------------------- ---- #
 # -- ---------------- GET /[symbol]/chart?period=[period]&from=[from]&till=[till] --3- #
 # -- ---------------------------------------------------------------------------- ---- #
+
+# www.tradingpal.com/api/instruments/eurusd/chart?period=m15&from=2016-07-04&till=2016-07-06
 
 GetSymbolH <- function(){}
 
@@ -97,14 +97,15 @@ GetTradersHist <- function(UserID){
                       RJson$open$amount_risk_per_point, RJson$open$risk_in_pips,
                       RJson$user, RJson$from, RJson$copy_to, RJson$joint, RJson$joint_trade)
   colnames(DataM) <- c("OrderID","OrderType","Symbol",
-                       "Open.TimeStamp","Open.Price",
-                       "Close.TimeStamp","Close.Price",
+                       "Open.TimeStamp", "Open.Price",
+                       "Close.TimeStamp", "Close.Price",
                        "OrderDurationInSecs",
-                       "PL.Currency","PL.Pips",
-                       "Lots","OrderMargin","AccountFreeMargin",
-                       "StopLoss","TakeProfit",
-                       "RisPerPoint","RiskInPips",
-                       "UserID","CopyFrom","CopyTo","Joint","JointOrder")
+                       "PL.Currency", "PL.Pips",
+                       "Lots", "OrderMargin", "AccountFreeMargin",
+                       "StopLoss", "TakeProfit",
+                       "RisPerPoint", "RiskInPips",
+                       "UserID", "CopyFrom", "CopyTo", "Joint", "JointOrder")
+  return(DataM)
 }
 
 # -- Obtener Informacion de una Operacion Particular ---------------------------- ---- #
