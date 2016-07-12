@@ -22,8 +22,8 @@ Query   <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="R
 RetJson <- fromJSON(Query, simplifyDataFrame = TRUE)
 
 DataM  <- data.frame(RetJson$uid,RetJson$token,
-                    RetJson$auth$token$auth_time,
-                    RetJson$expires)
+                    as.POSIXct(RetJson$auth$token$auth_time,origin="1970-01-01"),
+                    as.POSIXct(RetJson$expires,origin="1970-01-01"))
 colnames(DataM) <- c("UserId","Token","AuthTime","AuthExp")
 return(DataM)
 }
