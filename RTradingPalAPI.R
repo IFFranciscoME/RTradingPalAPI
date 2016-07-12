@@ -5,15 +5,6 @@
 # -- License: GNU General Public License ------------------------------------------ -- #
 # -- ------------------------------------------------------------------------------ -- #
 
-rm(list=ls()) # Remover objetos del Environment
-cat("\014")   # Limpiar consola
-
-pkg <- c("base","zoo","RCurl","jsonlite")
-
-inst <- pkg %in% installed.packages()
-if(length(pkg[!inst]) > 0) install.packages(pkg[!inst])
-instpackages <- lapply(pkg, library, character.only=TRUE)
-
 # -- Lista de funciones contenidas en este codigo para API Trading Pal ------------ -- #
 
 # -- Obtener Token de validacion ------------------------------------------------ ---- #
