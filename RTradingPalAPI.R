@@ -84,7 +84,11 @@ GetTradersHist <- function(UserID){
                       RJson$lots,RJson$margin,RJson$free_margin,
                       RJson$sl,RJson$tp,
                       RJson$open$amount_risk_per_point, RJson$open$risk_in_pips,
-                      RJson$user, RJson$from, RJson$copy_to, RJson$joint, RJson$joint_trade)
+                      RJson$user,
+                      ifelse(is.null(RJson$from),0,RJson$from),
+                      ifelse(is.null(RJson$copy_to),0,RJson$copy_to),
+                      ifelse(is.null(RJson$joint),0,RJson$joint),
+                      ifelse(is.null(RJson$joint_trade),0,RJson$joint_trade))
   colnames(DataM) <- c("OrderID","OrderType","Symbol",
                        "Open.TimeStamp", "Open.Price",
                        "Close.TimeStamp", "Close.Price",
