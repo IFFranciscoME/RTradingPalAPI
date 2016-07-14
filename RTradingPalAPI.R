@@ -49,7 +49,7 @@ return(DataM)}
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetSymbolH  <- function(P0_Symbol,P1_Period,P2_From,P3_To) {
-  
+
   http  <- "www.tradingpal.com/api/instruments/"
   http1 <- paste(http,P0_Symbol,sep="")
   http2 <- paste(http1,"chart?period=",sep="/" )
@@ -59,11 +59,13 @@ GetSymbolH  <- function(P0_Symbol,P1_Period,P2_From,P3_To) {
   http6 <- paste(http5,"till=",sep="&")
   http7 <- paste(http6,P3_To,sep="")
 
-  Query <- getURL(http7,cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
-  RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
-  Precios <- data.frame(as.POSIXct((RJson[,1]/1000), origin ="1970-01-01"),RJson[,2])
-  colnames(Precios) <- c("TimeStamp","Precio")
+  Query   <- getURL(http7,cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
+  RJson   <- fromJSON(Query, simplifyDataFrame = TRUE)
   
+  Precios <- data.frame(as.POSIXct((RJson$time), origin ="1970-01-01"),
+                        RJson$open, RJson$high, RJson$low, RJson$close)
+  colnames(Precios) <- c("TimeStamp","Open","High","Low","Close")
+
 return(Precios) }
 
 # -- Obtener Operaciones Activas en cuenta -------------------------------------- ---- #
