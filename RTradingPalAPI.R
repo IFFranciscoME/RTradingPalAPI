@@ -64,7 +64,7 @@ GetSymbolH  <- function(P0_Symbol,P1_Period,P2_From,P3_To) {
   Precios <- data.frame(as.POSIXct((RJson[,1]/1000), origin ="1970-01-01"),RJson[,2])
   colnames(Precios) <- c("TimeStamp","Precio")
   
-return(Query) }
+return(Precios) }
 
 # -- Obtener Operaciones Activas en cuenta -------------------------------------- ---- #
 # -- ------------------------------- GET /active Description Return active trades --4- #
