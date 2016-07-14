@@ -48,16 +48,16 @@ return(DataM)}
 # -- ---------------- GET /[symbol]/chart?period=[period]&from=[from]&till=[till] --3- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-GetSymbolH  <- function(P0_Symbol,P1_Period,P3_From,P4_To) {
+GetSymbolH  <- function(P0_Symbol,P1_Period,P2_From,P3_To) {
   
   http  <- "www.tradingpal.com/api/instruments/"
   http1 <- paste(http,P0_Symbol,sep="")
   http2 <- paste(http1,"chart?period=",sep="/" )
   http3 <- paste(http2,P1_Period,sep="")
   http4 <- paste(http3,"from=",sep="&")
-  http5 <- paste(http4,P3_From,sep="")
+  http5 <- paste(http4,P2_From,sep="")
   http6 <- paste(http5,"till=",sep="&")
-  http7 <- paste(http6,P4_To,sep="")
+  http7 <- paste(http6,P3_To,sep="")
 
   Query <- getURL(http7,cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
   RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
