@@ -50,11 +50,6 @@ return(DataM)}
 
 GetSymbolH  <- function(P0_Symbol,P1_From,P2_To) {
   
-  P0_Symbol <- "EURUSD"
-  P1_Period <- 1
-  P1_From <- round(as.numeric(Sys.time()-100000),0)
-  P2_To   <- round(as.numeric(Sys.time()),0)
-  
   http  <- "www.tradingpal.com/api/instruments/"
   http1 <- paste(http,P0_Symbol,sep="")
   http2 <- paste(http1,"chart?period=",sep="/" )
