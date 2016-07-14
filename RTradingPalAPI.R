@@ -157,10 +157,6 @@ CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
 return(PF)
 }
 
-CloseTrade(P0_Token = as.character(TP_Tk$Token),
-           P1_tradeID = TP_Trades$id[1],
-           P2_userID = as.character(TP_Tk$UserId[1]) )
-
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
 # -- ------------------------------------------ GET /[symbol]/feed?token=[token] --10- #
 # -- ---------------------------------------------------------------------------- ---- #
