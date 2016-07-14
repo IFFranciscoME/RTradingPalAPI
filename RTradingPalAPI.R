@@ -114,7 +114,15 @@ PutDesTrd1 <- function(){}
 # -- --------------------------- POST /?token=[token] Descriptions Open new trade --8- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-PutDesTrd2 <- function(){}
+OpenTrade <- function(P0_Token,P1_symbol, P2_sl, P3_tp, P4_lots, P5_op_type){
+  http  <- "www.tradingpal.com/api/trades/?token="
+  http2 <- paste(http,P0_Token,sep="")
+  Param <- c(symbol=P1_symbol,sl=P2_sl,tp=P3_tp,lots=P4_lots,op_type=P5_op_type)
+  PF <- postForm(http2, style="POST", .params=Param,
+    .opts=list(ssl.verifypeer = TRUE))
+  RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
+return(RetJson) }
+
 
 # -- Cerrar una Operacion ------------------------------------------------------- ---- #
 # -- -------------------- DELETE /[tradeID]?token=[token] Description Close trade --9- #
