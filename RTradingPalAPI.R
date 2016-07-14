@@ -134,10 +134,6 @@ ModifyTrade <- function(P0_Token,P1_tradeID,P2_SL,P3_TP){
   
 }
 
-ModifyTrade(P0_Token = "token",
-            P1_tradeID = "123",
-            "SL","TP")
-
 # -- Abrir una Operacion -------------------------------------------------------- ---- #
 # -- --------------------------- POST /?token=[token] Descriptions Open new trade --8- #
 # -- ---------------------------------------------------------------------------- ---- #
@@ -167,10 +163,6 @@ CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
   
 return(PF)
 }
-
-CloseTrade(P0_Token = TP_Tk$Token,
-           P1_tradeID = TP_Trades$id,
-           P2_userID = "01518e77-dcca-44e3-ad21-e9b7a4ac998d")
 
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
 # -- ------------------------------------------ GET /[symbol]/feed?token=[token] --10- #
