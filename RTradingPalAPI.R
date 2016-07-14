@@ -148,12 +148,11 @@ return(RetJson)
 
 CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
   http  <- "www.tradingpal.com/api/trades/"
-  http2 <- paste(http,P1_tradeID,sep="")
-  http3 <- paste(http2,"?token=",sep="")
+  http2 <- paste(http,P1_tradeID, sep = "")
+  http3 <- paste(http2,"?token=", sep = "")
   httpf <- paste(http3,P0_Token,sep="")
   Param <- c(id = P1_tradeID, user = P2_userID)
-  PF <- DELETE(url=httpf)
-  
+  PF <- DELETE(url = httpf)
 return(PF)
 }
 
