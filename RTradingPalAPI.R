@@ -123,7 +123,20 @@ GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
 # -- -------------------- PUT /[tradeID]?sl=[sl]&tp=[tp] Description Update trade --7- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-ModifyTrade <- function(){}
+ModifyTrade <- function(P0_Token,P1_tradeID,P2_SL,P3_TP){
+  
+  http  <- "www.tradingpal.com/api/trades/"
+  http1 <- paste(http,P1_tradeID,sep="")
+  http2 <- paste(http1,P2_SL,sep="?sl=")
+  http3 <- paste(http2,P3_TP,sep="&tp=")
+  
+  return(http3)
+  
+}
+
+ModifyTrade(P0_Token = "token",
+            P1_tradeID = "123",
+            "SL","TP")
 
 # -- Abrir una Operacion -------------------------------------------------------- ---- #
 # -- --------------------------- POST /?token=[token] Descriptions Open new trade --8- #
@@ -143,18 +156,21 @@ return(RetJson) }
 # -- ---------------------------------------------------------------------------- ---- #
 
 CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
-  
+
   http  <- "www.tradingpal.com/api/trades/"
   http2 <- paste(http,TP_Trades$id,sep="")
   http3 <- paste(http2,"?token=",sep="")
   httpf <- paste(http3,TP_Tk$Token,sep="")
   Param <- c(id = P1_tradeID, user = P2_userID)
-  PF <- httpDELETE(httpf, style="POST", .params=Param,
-                   .opts=list(ssl.verifypeer = TRUE))
+  PF <- DELETE(url=httpf)
+  #RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
   
-  RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
-return(RetJson)
+return(PF)
 }
+
+CloseTrade(P0_Token = TP_Tk$Token,
+           P1_tradeID = TP_Trades$id,
+           P2_userID = "01518e77-dcca-44e3-ad21-e9b7a4ac998d")
 
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
 # -- ------------------------------------------ GET /[symbol]/feed?token=[token] --10- #
