@@ -148,13 +148,18 @@ return(RetJson)
 
 CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
   http  <- "www.tradingpal.com/api/trades/"
-  http2 <- paste(http,TP_Trades$id,sep="")
+  http2 <- paste(http,P1_tradeID,sep="")
   http3 <- paste(http2,"?token=",sep="")
-  httpf <- paste(http3,TP_Tk$Token,sep="")
+  httpf <- paste(http3,P0_Token,sep="")
   Param <- c(id = P1_tradeID, user = P2_userID)
   PF <- DELETE(url=httpf)
+  
 return(PF)
 }
+
+CloseTrade(P0_Token = as.character(TP_Tk$Token),
+           P1_tradeID = TP_Trades$id[1],
+           P2_userID = as.character(TP_Tk$UserId[1]) )
 
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
 # -- ------------------------------------------ GET /[symbol]/feed?token=[token] --10- #
