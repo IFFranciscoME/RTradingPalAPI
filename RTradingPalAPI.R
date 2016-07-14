@@ -105,15 +105,25 @@ GetTradersHist <- function(UserID){
 # -- -- GET /[tradeID] || [ticket] Description Returns trade by tradeID or Ticket --6- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-GetTradeID <- function(){}
-
-
+GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
+  
+  http  <- "www.tradingpal.com/api/trades/"
+  http2 <- paste(http,TP_Trades$id,sep="")
+  http3 <- paste(http2,"?token=",sep="")
+  httpf <- paste(http3,TP_Tk$Token,sep="")
+  Param <- c(id = P1_tradeID, user = P2_userID)
+  PF <- httpGET(httpf, style="POST", .params=Param,
+                   .opts=list(ssl.verifypeer = TRUE))
+  
+  RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
+  return(RetJson)
+}
 
 # -- Modificar TakeProfit y StopLoss de una Operacion --------------------------- ---- #
 # -- -------------------- PUT /[tradeID]?sl=[sl]&tp=[tp] Description Update trade --7- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-PutDesTrd1 <- function(){}
+ModifyTrade <- function(){}
 
 # -- Abrir una Operacion -------------------------------------------------------- ---- #
 # -- --------------------------- POST /?token=[token] Descriptions Open new trade --8- #
@@ -138,23 +148,13 @@ CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
   http2 <- paste(http,TP_Trades$id,sep="")
   http3 <- paste(http2,"?token=",sep="")
   httpf <- paste(http3,TP_Tk$Token,sep="")
-  
   Param <- c(id = P1_tradeID, user = P2_userID)
-  
   PF <- httpDELETE(httpf, style="POST", .params=Param,
-                 .opts=list(ssl.verifypeer = TRUE))
+                   .opts=list(ssl.verifypeer = TRUE))
   
   RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
-  
 return(RetJson)
 }
-
-
-CloseTrade(P0_Token = TP_Tk$Token,
-           P1_tradeID = TP_Trades$id,
-           P2_userID = "01518e77-dcca-44e3-ad21-e9b7a4ac998d"
-           )
-
 
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
 # -- ------------------------------------------ GET /[symbol]/feed?token=[token] --10- #
