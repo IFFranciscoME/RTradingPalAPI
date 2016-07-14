@@ -60,7 +60,6 @@ GetTrades <- function(UserID){
   httpF <- paste(http1,"/trades",sep="")
   Query <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
   RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
-  RJson
   return(RJson)
 }
 
@@ -106,7 +105,6 @@ GetTradersHist <- function(UserID){
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
-  
   http  <- "www.tradingpal.com/api/trades/"
   http2 <- paste(http,TP_Trades$id,sep="")
   http3 <- paste(http2,"?token=",sep="")
@@ -114,7 +112,6 @@ GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
   Param <- c(id = P1_tradeID, user = P2_userID)
   PF <- httpGET(httpf, style="POST", .params=Param,
                    .opts=list(ssl.verifypeer = TRUE))
-  
   RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
   return(RetJson)
 }
@@ -124,14 +121,11 @@ GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
 # -- ---------------------------------------------------------------------------- ---- #
 
 ModifyTrade <- function(P0_Token,P1_tradeID,P2_SL,P3_TP){
-  
   http  <- "www.tradingpal.com/api/trades/"
   http1 <- paste(http,P1_tradeID,sep="")
   http2 <- paste(http1,P2_SL,sep="?sl=")
   http3 <- paste(http2,P3_TP,sep="&tp=")
-  
   return(http3)
-  
 }
 
 # -- Abrir una Operacion -------------------------------------------------------- ---- #
@@ -145,22 +139,20 @@ OpenTrade <- function(P0_Token,P1_symbol, P2_sl, P3_tp, P4_lots, P5_op_type){
   PF <- postForm(http2, style="POST", .params=Param,
     .opts=list(ssl.verifypeer = TRUE))
   RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
-return(RetJson) }
+return(RetJson) 
+  }
 
 # -- Cerrar una Operacion ------------------------------------------------------- ---- #
 # -- -------------------- DELETE /[tradeID]?token=[token] Description Close trade --9- #
 # -- ---------------------------------------------------------------------------- ---- #
 
 CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
-
   http  <- "www.tradingpal.com/api/trades/"
   http2 <- paste(http,TP_Trades$id,sep="")
   http3 <- paste(http2,"?token=",sep="")
   httpf <- paste(http3,TP_Tk$Token,sep="")
   Param <- c(id = P1_tradeID, user = P2_userID)
   PF <- DELETE(url=httpf)
-  #RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
-  
 return(PF)
 }
 
