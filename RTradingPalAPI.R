@@ -49,10 +49,6 @@ return(DataM)}
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetSymbolH  <- function(P0_Symbol,P1_Period,P2_From,P3_To) {
-  P0_Symbol <- "EURUSD"
-  P1_Period <- 1
-  P2_From <- as.numeric(as.POSIXct("2016-07-18 08:29:00", tz = "UTC"))
-  P3_To <- as.numeric(as.POSIXct("2016-07-18 08:31:00", tz = "UTC"))
   
   http  <- "www.tradingpal.com/api/instruments/"
   http1 <- paste(http,P0_Symbol,sep="")
