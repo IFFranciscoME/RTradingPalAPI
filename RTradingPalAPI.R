@@ -62,7 +62,7 @@ GetSymbolH  <- function(P0_Symbol,P1_Period,P2_From,P3_To) {
   Query   <- getURL(http7,cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
   RJson   <- fromJSON(Query, simplifyDataFrame = TRUE)
   
-  Precios <- data.frame(as.POSIXct((RJson$time), origin ="1970-01-01"),
+  Precios <- data.frame(as.POSIXct((RJson$time), origin ="1970-01-01", tz = "UTC"),
                         RJson$open, RJson$high, RJson$low, RJson$close)
   colnames(Precios) <- c("TimeStamp","Open","High","Low","Close")
 
