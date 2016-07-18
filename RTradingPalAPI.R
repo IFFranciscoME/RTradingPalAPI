@@ -77,13 +77,17 @@ return(Precios) }
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetTrades <- function(UserID){
-
+  
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF <- paste(http1,"/trades",sep="")
   Query <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
-  RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
-
+  if(Query == ""){
+    RJson <- "NA"
+    } else RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
+  
 return(RJson) }
+
+
 
 # -- Obtener Historico de Operaciones Por Trader -------------------------------- ---- #
 # --  GET /users/[uID]/trades/closed Description Returns close trades by traderID --5- #
