@@ -182,6 +182,24 @@ CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
   
 return(PF) }
 
+# -- Obtener Usuarios en TradingPal --------------------------------------------- ---- #
+# -- ----------------------------- GET /api/users/[user-id]/relations/jointed_by --10- #
+# -- ---------------------------------------------------------------------------- ---- #
+
+GetAutoCopyUsers <- function(P1_userID)  {
+  
+  http  <- "www.tradingpal.com/api/users/"
+  http2 <- paste(http,P1_userID,sep="")
+  httpf <- paste(http2,"/relations/jointed_by",sep="")
+  PF <- httpGET(httpf, style="POST", .opts=list(ssl.verifypeer = TRUE))
+  RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
+  DF <- data.frame(do.call(rbind.data.frame, RetJson))
+  Final <- data.frame(row.names(DF),DF[1])
+  row.names(Final) <- NULL
+  colnames(Final) <- c("UID","Riesgo")
+  
+return(Final) }
+
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
 # -- ------------------------------------------ GET /[symbol]/feed?token=[token] --10- #
 # -- ---------------------------------------------------------------------------- ---- #
