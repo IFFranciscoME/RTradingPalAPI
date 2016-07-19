@@ -127,7 +127,7 @@ return(DataM) }
 # -- -- GET /[tradeID] || [ticket] Description Returns trade by tradeID or Ticket --6- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
+GetTradeInfo <- function(P1_tradeID,P2_userID){
 
   http  <- "www.tradingpal.com/api/trades/"
   http2 <- paste(http,TP_Trades$id,sep="")
@@ -172,14 +172,14 @@ return(RetJson) }
 # -- ---------------------------------------------------------------------------- ---- #
 
 CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
-  
+
   http  <- "www.tradingpal.com/api/trades/"
   http2 <- paste(http,P1_tradeID, sep = "")
   http3 <- paste(http2,"?token=", sep = "")
   httpf <- paste(http3,P0_Token,sep="")
   Param <- c(id = P1_tradeID, user = P2_userID)
   PF <- DELETE(url = httpf)
-  
+
 return(PF) }
 
 # -- Obtener Usuarios en TradingPal --------------------------------------------- ---- #
@@ -187,7 +187,7 @@ return(PF) }
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetAutoCopyUsers <- function(P1_userID)  {
-  
+
   http  <- "www.tradingpal.com/api/users/"
   http2 <- paste(http,P1_userID,sep="")
   httpf <- paste(http2,"/relations/jointed_by",sep="")
@@ -197,7 +197,7 @@ GetAutoCopyUsers <- function(P1_userID)  {
   Final <- data.frame(row.names(DF),DF[1])
   row.names(Final) <- NULL
   colnames(Final) <- c("UID","Riesgo")
-  
+
 return(Final) }
 
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
