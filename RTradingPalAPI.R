@@ -127,13 +127,13 @@ return(DataM) }
 # -- -- GET /[tradeID] || [ticket] Description Returns trade by tradeID or Ticket --6- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-GetTradeInfo <- function(P1_tradeID,P2_userID){
+GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
 
   http  <- "www.tradingpal.com/api/trades/"
   http2 <- paste(http,P1_tradeID,sep="")
   http3 <- paste(http2,"?token=",sep="")
   httpf <- paste(http3,P0_Token,sep="")
-  Param <- c(id = P1_tradeID, user = P2_userID)
+  Param <- c(token=P0_Token, id = P1_tradeID, user = P2_userID)
   PF <- httpGET(httpf, style="POST", .params=Param,.opts=list(ssl.verifypeer = TRUE))
   RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
 
