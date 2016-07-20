@@ -201,7 +201,18 @@ GetAutoCopyUsers <- function(P1_userID)  {
 return(Final) }
 
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
-# -- ------------------------------------------ GET /[symbol]/feed?token=[token] --10- #
+# -- ------------------------------------------ GET /api/users/[user-id]/account --11- #
 # -- ---------------------------------------------------------------------------- ---- #
 
-GetSymbolF <- function(){}
+GetAccountInfo <- function(P0_Token,P1_userID) {
+  
+return(RetJson) }
+
+
+# -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
+# -- ------------------------------------------ GET /[symbol]/feed?token=[token] --12- #
+# -- ---------------------------------------------------------------------------- ---- #
+
+GetSymbolF <- function(){
+  
+return(RetJson) }
