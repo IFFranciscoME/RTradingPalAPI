@@ -200,7 +200,7 @@ GetAutoCopyUsers <- function(P1_userID)  {
 
 return(Final) }
 
-# -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
+# -- Obtener Info General de la Cuenta ------------------------------------------ ---- #
 # -- ------------------------------------------ GET /api/users/[user-id]/account --11- #
 # -- ---------------------------------------------------------------------------- ---- #
 
@@ -215,8 +215,24 @@ GetAccountInfo <- function(P0_Token,P1_userID) {
 
 return(RetJson) }
 
+# -- Obtener Balance de la Cuenta ----------------------------------------------- ---- #
+# -- ------------------------------------------ GET /api/users/[user-id]/account --12- #
+# -- ---------------------------------------------------------------------------- ---- #
+
+GetAccountBalance <- function(P0_Token,P1_userID) {
+  
+  http  <- "www.tradingpal.com/api/users/"
+  http2 <- paste(http,P1_userID,sep="")
+  http3 <- paste(http2,"/account/balance?token=",sep="")
+  httpf <- paste(http3,P0_Token,sep="")
+  PF <- httpGET(httpf, style="POST", .opts=list(ssl.verifypeer = TRUE))
+  RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
+  
+return(RetJson) }
+
+
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
-# -- ------------------------------------------ GET /[symbol]/feed?token=[token] --12- #
+# -- ------------------------------------------ GET /[symbol]/feed?token=[token] --13- #
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetSymbolF <- function(){
