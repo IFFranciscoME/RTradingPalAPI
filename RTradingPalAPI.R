@@ -206,9 +206,6 @@ return(Final) }
 
 GetAccountInfo <- function(P0_Token,P1_userID) {
   
-  P0_Token <- ROBBY$Token$Token
-  P1_userID <- ROBBY$TPUID
-  
   http  <- "www.tradingpal.com/api/users/"
   http2 <- paste(http,P1_userID,sep="")
   http3 <- paste(http2,"/account?token=",sep="")
@@ -223,5 +220,5 @@ return(RetJson) }
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetSymbolF <- function(){
-  
+
 return(RetJson) }
