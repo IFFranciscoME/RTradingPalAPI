@@ -206,8 +206,17 @@ return(Final) }
 
 GetAccountInfo <- function(P0_Token,P1_userID) {
   
-return(RetJson) }
+  P0_Token <- ROBBY$Token$Token
+  P1_userID <- ROBBY$TPUID
+  
+  http  <- "www.tradingpal.com/api/users/"
+  http2 <- paste(http,P1_userID,sep="")
+  http3 <- paste(http2,"/account?token=",sep="")
+  httpf <- paste(http3,P0_Token,sep="")
+  PF <- httpGET(httpf, style="POST", .opts=list(ssl.verifypeer = TRUE))
+  RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
 
+return(RetJson) }
 
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
 # -- ------------------------------------------ GET /[symbol]/feed?token=[token] --12- #
