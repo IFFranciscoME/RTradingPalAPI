@@ -73,7 +73,7 @@ return(Precios) }
 # -- ---------------------------------------------------------------------------- ---- #
 
 GetTrades <- function(UserID){
-  UserID <- BENDER$TPUID
+  
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF <- paste(http1,"/trades",sep="")
   Query <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
@@ -82,6 +82,7 @@ GetTrades <- function(UserID){
     colnames(RJson) <- c("free_margin","id","isSelf","lots","margin","op_type",
                          "open","sl","symbol","tp","user","joint")
     } else RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
+
 return(RJson) }
 
 
@@ -159,11 +160,22 @@ return(http3) }
 
 OpenTrade <- function(P0_Token,P1_symbol, P2_sl, P3_tp, P4_lots, P5_op_type){
   
+  # Para Orden sin SL no se debe de incluir sl=0, no se debe de incluir sl en request
+  #P0_Token <- as.character(BENDER$Token$Token)
+  #P1_symbol <- "NZDUSD"
+  #P2_sl <- 0
+  #P3_tp <- 0
+  #P4_lots <- 0.1
+  #P5_op_type = "sell"
+  
+  if(P2_sl == 0){
+         Param <- c(symbol=P1_symbol,tp=P3_tp,lots=P4_lots,op_type=P5_op_type)
+    } else Param <- c(symbol=P1_symbol,sl=P2_sl,tp=P3_tp,lots=P4_lots,op_type=P5_op_type)
+  
   http  <- "www.tradingpal.com/api/trades/?token="
   http2 <- paste(http,P0_Token,sep="")
-  Param <- c(symbol=P1_symbol,sl=P2_sl,tp=P3_tp,lots=P4_lots,op_type=P5_op_type)
-  PF <- postForm(http2, style="POST", .params=Param,
-    .opts=list(ssl.verifypeer = TRUE))
+  PF <- postForm(http2, style="POST", .params=Param, .opts=list(ssl.verifypeer = TRUE))
+  
   RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
   
 return(RetJson) }
