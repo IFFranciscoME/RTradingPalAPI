@@ -14,7 +14,7 @@
 GetToken <- function(Email, Pass){
 
   http  <- "www.tradingpal.com/api/auth?email="
-  http1 <- paste(http,Email,sep="")
+  http1 <- paste(http,Email,sep=" ")
   http2 <- paste("&password=",Pass,sep="")
   httpF <- paste(http1,http2,sep="")
 
@@ -243,6 +243,21 @@ GetAccountBalance <- function(P0_Token,P1_userID) {
   
 return(RetJson) }
 
+GetJointHist <- function(P1_TraderID1,P2_UserID2,MasterToken) {
+
+  http1 <- "http://www.tradingpal.com/api/users/"
+  http2 <- paste(http1,P2_UserID2,sep="")
+  http3 <- paste(http2,"/relations/joint/",sep="")
+  http4 <- paste(http3,P1_TraderID1,sep="")
+  http5 <- paste(http4,"/history?",sep="")
+  http6 <- paste(http5,"token=",sep="")
+  http7 <- paste(http6,MasterToken,sep="")
+  http8 <- paste(http7,"&user=",sep="")
+  httpF <- paste(http8,P1_TraderID1,sep="")
+  Query <- httpGET(httpF, style="POST", .opts=list(ssl.verifypeer = TRUE))
+  Datos <- fromJSON(Query, simplifyDataFrame = TRUE)
+
+return(Datos) }
 
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
 # -- ------------------------------------------ GET /[symbol]/feed?token=[token] --13- #
