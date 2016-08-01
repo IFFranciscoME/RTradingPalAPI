@@ -228,6 +228,19 @@ GetAccountInfo <- function(P0_Token,P1_userID) {
 
 return(RetJson) }
 
+GetAccountInfoM <- function(P0_Token,P1_userID) {
+  http  <- "www.tradingpal.com/api/users/"
+  http2 <- paste(http,P1_userID,sep="")
+  http3 <- paste(http2,"/account?token=",sep="")
+  http4 <- paste(http3,P0_Token,sep="")
+  http5 <- paste(http4,"&user=",sep="")
+  httpf <- paste(http5,P1_userID,sep="")
+  
+  PF <- httpGET(httpf, style="POST", .opts=list(ssl.verifypeer = TRUE))
+  RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
+  
+return(RetJson) }
+
 # -- Obtener Balance de la Cuenta ----------------------------------------------- ---- #
 # -- ------------------------------------------ GET /api/users/[user-id]/account --12- #
 # -- ---------------------------------------------------------------------------- ---- #
