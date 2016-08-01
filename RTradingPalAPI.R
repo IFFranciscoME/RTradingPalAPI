@@ -85,8 +85,6 @@ GetTrades <- function(UserID){
 
 return(RJson) }
 
-
-
 # -- Obtener Historico de Operaciones Por Trader -------------------------------- ---- #
 # --  GET /users/[uID]/trades/closed Description Returns close trades by traderID --5- #
 # -- ---------------------------------------------------------------------------- ---- #
@@ -141,6 +139,21 @@ GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
 
 return(RetJson) }
 
+Master_GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
+  
+  http  <- "www.tradingpal.com/api/trades/"
+  http2 <- paste(http,P1_tradeID,sep="")
+  http3 <- paste(http2,"?token=",sep="")
+  http4 <- paste(http3,P0_Token,sep="")
+  http5 <- paste(http4,"&user=",sep="")
+  httpf <- paste(http5,P2_userID,sep="")
+  
+  Param <- c(token=P0_Token, id = P1_tradeID, user = P2_userID)
+  PF <- httpGET(httpf, style="POST", .params=Param,.opts=list(ssl.verifypeer = TRUE))
+  RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
+  
+return(RetJson) }
+
 # -- Modificar TakeProfit y StopLoss de una Operacion --------------------------- ---- #
 # -- -------------------- PUT /[tradeID]?sl=[sl]&tp=[tp] Description Update trade --7- #
 # -- ---------------------------------------------------------------------------- ---- #
@@ -152,6 +165,16 @@ ModifyTrade <- function(P0_Token,P1_tradeID,P2_SL,P3_TP){
   http2 <- paste(http1,P2_SL,sep="?sl=")
   http3 <- paste(http2,P3_TP,sep="&tp=")
   
+return(http3) }
+
+Master_ModifyTrade <- function(P0_Token,P1_tradeID,P2_SL,P3_TP){
+  
+  http  <- "www.tradingpal.com/api/trades/"
+  http1 <- paste(http,P1_tradeID,sep="")
+  http2 <- paste(http1,P2_SL,sep="?sl=")
+  http3 <- paste(http2,P3_TP,sep="&tp=")
+  http4 <- paste(http3,"&user=",sep="")
+
 return(http3) }
 
 # -- Abrir una Operacion -------------------------------------------------------- ---- #
@@ -255,6 +278,24 @@ GetAccountBalance <- function(P0_Token,P1_userID) {
   RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
   
 return(RetJson) }
+
+Master_GetAccountBalance <- function(P0_Token,P1_userID) {
+  
+  http  <- "www.tradingpal.com/api/users/"
+  http2 <- paste(http,P1_userID,sep="")
+  http3 <- paste(http2,"/account/balance?token=",sep="")
+  http4 <- paste(http3,P0_Token,sep="")
+  http5 <- paste(http4,"&user=",sep="")
+  httpf <- paste(http5,P1_userID,sep="")
+  
+  PF <- httpGET(httpf, style="POST", .opts=list(ssl.verifypeer = TRUE))
+  RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
+  
+return(RetJson) }
+
+# -- Obtener Historial Conjunto de la Cuenta ------------------------------------ ---- #
+# -- ------------------------------------------ GET /api/users/[user-id]/account --12- #
+# -- ---------------------------------------------------------------------------- ---- #
 
 GetJointHist <- function(P1_TraderID1,P2_UserID2,MasterToken) {
 
