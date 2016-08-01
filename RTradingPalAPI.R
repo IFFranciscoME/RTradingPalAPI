@@ -14,7 +14,7 @@
 GetToken <- function(Email, Pass){
 
   http  <- "www.tradingpal.com/api/auth?email="
-  http1 <- paste(http,Email,sep=" ")
+  http1 <- paste(http,Email,sep="")
   http2 <- paste("&password=",Pass,sep="")
   httpF <- paste(http1,http2,sep="")
 
@@ -256,7 +256,6 @@ GetJointHist <- function(P1_TraderID1,P2_UserID2,MasterToken) {
   httpF <- paste(http8,P1_TraderID1,sep="")
   Query <- httpGET(httpF, style="POST", .opts=list(ssl.verifypeer = TRUE))
   Datos <- fromJSON(Query, simplifyDataFrame = TRUE)
-
 return(Datos) }
 
 # -- Obtener Muro-Feed de un instrumento ---------------------------------------- ---- #
