@@ -263,9 +263,6 @@ return(Datos) }
 
 Master_GetUserType <- function(P0_Token,P1_UserId) {
   
-  P0_Token  <- MasterToken
-  P1_UserId <- "03b2f97d-020d-4bcd-bdda-5a575bda4a48"
-  
   http  <- "http://www.tradingpal.com/api/users/"
   http1 <- paste(http,P1_UserId,sep="")
   http2 <- paste(http1,"/thumbnail?token=",sep="")
