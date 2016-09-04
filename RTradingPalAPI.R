@@ -123,8 +123,28 @@ GetTradersHist <- function(UserID){
 
 return(DataM) }
 
+# -- Obtener Historico de Operaciones Por Usuario ----------------------------- ------- #
+# --  GET /users/[uID]/trades/closed Returns close trades by traderID --------- -- 6 -- #
+# -- -------------------------------------------------------------------------- ------- #
+
+GetUsersTradesHist <- function(UserID){
+  
+  http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
+  httpF  <- paste(http1,"/trades/closed",sep="")
+  Query  <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
+  RJson  <- fromJSON(Query, simplifyDataFrame = TRUE)
+  
+  RJson$open$time <- as.POSIXct(gsub("Z", "",gsub("T"," ",RJson$open$time)),
+                                origin=as.POSIXct("1970-01-01", tz="America/Monterrey"),
+                                tz = "America/Monterrey")
+  
+  RJson$close$time <- as.POSIXct(gsub("Z", "",gsub("T"," ",RJson$close$time)),
+                                origin=as.POSIXct("1970-01-01", tz="America/Monterrey"),
+                                tz = "America/Monterrey")
+return(RJson) }
+
 # -- Obtener Informacion de una Operacion Particular -------------------------- ------- #
-# -- -- GET /[tradeID] || [ticket] Returns trade by tradeID or Ticket --------- -- 6 -- #
+# -- -- GET /[tradeID] || [ticket] Returns trade by tradeID or Ticket --------- -- 7 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
 GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
@@ -140,7 +160,7 @@ GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID){
 return(RetJson) }
 
 # -- Modificar TakeProfit y StopLoss de una Operacion ------------------------- ------- #
-# -- ------------------ PUT /[tradeID]?sl=[sl]&tp=[tp] Description Update trade -- 7 -- #
+# -- ------------------ PUT /[tradeID]?sl=[sl]&tp=[tp] Description Update trade -- 8 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
 ModifyTrade <- function(P0_Token,P1_tradeID,P2_SL,P3_TP){
@@ -153,7 +173,7 @@ ModifyTrade <- function(P0_Token,P1_tradeID,P2_SL,P3_TP){
 return(http3) }
 
 # -- Abrir una Operacion ------------------------------------------------------ ------- #
-# -- ------------------------- POST /?token=[token] Descriptions Open new trade -- 8 -- #
+# -- ------------------------- POST /?token=[token] Descriptions Open new trade -- 9 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
 OpenTrade <- function(P0_Token,P1_symbol, P2_sl, P3_tp, P4_lots, P5_op_type){
@@ -171,7 +191,7 @@ OpenTrade <- function(P0_Token,P1_symbol, P2_sl, P3_tp, P4_lots, P5_op_type){
 return(RetJson) }
 
 # -- Cerrar una Operacion ----------------------------------------------------- ------- #
-# -- ------------------ DELETE /[tradeID]?token=[token] Description Close trade -- 9 -- #
+# -- ----------------- DELETE /[tradeID]?token=[token] Description Close trade -- 10 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
 CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
@@ -186,7 +206,7 @@ CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
 return(PF) }
 
 # -- Obtener Usuarios en TradingPal ------------------------------------------ -------- #
-# -- --------------------------- GET /api/users/[user-id]/relations/jointed_by -- 10 -- #
+# -- --------------------------- GET /api/users/[user-id]/relations/jointed_by -- 11 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
 GetAutoCopyUsers <- function(P1_userID)  {
@@ -204,7 +224,7 @@ GetAutoCopyUsers <- function(P1_userID)  {
 return(Final) }
 
 # -- Obtener Info General de la Cuenta --------------------------------------- -------- #
-# -- ---------------------------------------- GET /api/users/[user-id]/account -- 11 -- #
+# -- ---------------------------------------- GET /api/users/[user-id]/account -- 12 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
 GetAccountInfo <- function(P0_Token,P1_userID) {
@@ -219,7 +239,7 @@ GetAccountInfo <- function(P0_Token,P1_userID) {
 return(RetJson) }
 
 # -- Obtener Balance de la Cuenta -------------------------------------------- -------- #
-# -- ---------------------------------------- GET /api/users/[user-id]/account -- 12 -- #
+# -- ---------------------------------------- GET /api/users/[user-id]/account -- 13 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
 GetAccountBalance <- function(P0_Token,P1_userID) {
@@ -234,7 +254,7 @@ GetAccountBalance <- function(P0_Token,P1_userID) {
 return(RetJson) }
 
 # -- Obtener Historial Conjunto de la Cuenta --------------------------------- -------- #
-# -- ---------------------------------------- GET /api/users/[user-id]/account -- 13 -- #
+# -- ---------------------------------------- GET /api/users/[user-id]/account -- 14 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
 GetJointHist <- function(P1_TraderID1,P2_UserID2,MasterToken) {
