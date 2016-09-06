@@ -5,13 +5,24 @@
 # -- License: GNU General Public License ------------------------------------------- -- #
 # -- ------------------------------------------------------------------------------- -- #
 
+U1 <- "0e2bc5fb-35ee-4b4f-869c-ae94d5e40eae" # Pelham Jenkins
+U2 <- "cd2b1ea1-bcb4-40a3-91f9-3c3eac6c4566" # Javier Moreno
+U3 <- "5b0c8e0f-3f64-4089-8f94-96c573b11a9e" # Jose Barba
+U4 <- "5441b58e-b028-4e5c-8ad5-68390d1829b2" # Jorge Holguin
+
+MT1 <- "77cae42a7d8dd67bf34a40e9ee41e7cabec5eec36d1fee599903cb1d1f30c9aa00425"
+MT2 <- "aadb7f9ebe1a6b80fa4ec5b4c9dd20f8c6bdd5855e102f3aabe1439b0e933630cb2d0"
+MT3 <- "82055e4bfcaa6cf9a155529a4f5ae88c1ca1ea2f5083791da97661d8f3f3b1c3ca96d"
+MT4 <- "2b18d52364b05e238"
+MasterToken <- as.character(paste(paste(paste(MT1,MT2,sep=""),MT3,sep=""),MT4,sep=""))
+
 # -- Lista de funciones contenidas en este codigo para API Trading Pal ------------- -- #
 
 # -- Obtener Token de validacion ---------------------------------------------- ------- #
 # -- ------------------------------------------------- GET /token?token=[token] -- 1 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-GetToken <- function(Email, Pass) {
+TP_GetToken <- function(Email, Pass) {
 
   http  <- "www.tradingpal.com/api/auth?email="
   http1 <- paste(http,Email,sep="")
@@ -32,7 +43,7 @@ return(DataM) }
 # -- ------------------------------------------------------------ GET /[symbol] -- 2 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-GetSymbol <- function(Instrument) {
+TP_GetSymbol <- function(Instrument) {
 
   Tiemp <- Sys.time()
   http  <- "www.tradingpal.com/api/instruments/"
@@ -48,7 +59,7 @@ return(DataM) }
 # -- -------------- GET /[symbol]/chart?period=[period]&from=[from]&till=[till] -- 3 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-GetSymbolH  <- function(P0_Symbol,P1_Period,P2_From,P3_To) {
+TP_GetSymbolH  <- function(P0_Symbol,P1_Period,P2_From,P3_To) {
   
   http  <- "www.tradingpal.com/api/instruments/"
   http1 <- paste(http,P0_Symbol,sep="")
@@ -72,7 +83,7 @@ return(Precios) }
 # -- ----------------------------- GET /active Description Return active trades -- 4 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-GetTrades <- function(UserID) {
+TP_GetTrades <- function(UserID) {
 
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF <- paste(http1,"/trades",sep="")
@@ -89,7 +100,7 @@ return(RJson) }
 # --  GET /users/[uID]/trades/closed Returns close trades by traderID --------- -- 5 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-GetTradersHist <- function(UserID) {
+TP_GetTradersHist <- function(UserID) {
 
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF  <- paste(http1,"/trades/closed",sep="")
@@ -97,9 +108,9 @@ GetTradersHist <- function(UserID) {
   RJson  <- fromJSON(Query, simplifyDataFrame = TRUE)
   
   DataM <- data.frame(RJson$id,RJson$op_type,RJson$symbol,
-                      as.POSIXct(as.numeric(RJson$open$time)/1000, origin = "1970-01-01"),
+                      as.POSIXct(as.numeric(RJson$open$time)/1000, origin="1970-01-01"),
                       RJson$open$price,
-                      as.POSIXct(as.numeric(RJson$close$time)/1000, origin = "1970-01-01"),
+                      as.POSIXct(as.numeric(RJson$close$time)/1000, origin="1970-01-01"),
                       RJson$close$price,
                       round(RJson$result$period/1000,1),
                       RJson$result$pnl_currency,RJson$result$pnl_pips,
@@ -127,9 +138,9 @@ return(DataM) }
 # --  GET /users/[uID]/trades/closed Returns close trades by traderID --------- -- 6 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-GetUsersTradesHist <- function(UserID) {
+TP_GetUsersTradesHist <- function(UserID) {
   
-  http1  <- paste("http://www.tradingpal.com/api/users/","03e0edcf-8808-41bf-a67e-fa7c662228e6",sep="")
+  http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF  <- paste(http1,"/trades/closed",sep="")
   Query  <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
   RJson  <- fromJSON(Query, simplifyDataFrame = TRUE)
@@ -160,7 +171,7 @@ return(RJson) }
 # -- -- GET /[tradeID] || [ticket] Returns trade by tradeID or Ticket --------- -- 7 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID) {
+TP_GetTradeInfo <- function(P0_Token,P1_tradeID,P2_userID) {
 
   http  <- "www.tradingpal.com/api/trades/"
   http2 <- paste(http,P1_tradeID,sep="")
@@ -176,7 +187,7 @@ return(RetJson) }
 # -- ------------------ PUT /[tradeID]?sl=[sl]&tp=[tp] Description Update trade -- 8 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-ModifyTrade <- function(P0_Token,P1_tradeID,P2_SL,P3_TP) {
+TP_ModifyTrade <- function(P0_Token,P1_tradeID,P2_SL,P3_TP) {
   
   http  <- "www.tradingpal.com/api/trades/"
   http1 <- paste(http,P1_tradeID,sep="")
@@ -189,7 +200,7 @@ return(http3) }
 # -- ------------------------- POST /?token=[token] Descriptions Open new trade -- 9 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-OpenTrade <- function(P0_Token,P1_symbol, P2_sl, P3_tp, P4_lots, P5_op_type) {
+TP_OpenTrade <- function(P0_Token,P1_symbol, P2_sl, P3_tp, P4_lots, P5_op_type) {
   
   if(P2_sl == 0){
          Param <- c(symbol=P1_symbol,tp=P3_tp,lots=P4_lots,op_type=P5_op_type)
@@ -207,7 +218,7 @@ return(RetJson) }
 # -- ----------------- DELETE /[tradeID]?token=[token] Description Close trade -- 10 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
+TP_CloseTrade <- function(P0_Token,P1_tradeID,P2_userID){
 
   http  <- "www.tradingpal.com/api/trades/"
   http2 <- paste(http,P1_tradeID, sep = "")
@@ -222,7 +233,7 @@ return(PF) }
 # -- --------------------------- GET /api/users/[user-id]/relations/jointed_by -- 11 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
-GetAutoCopyUsers <- function(P1_userID)  {
+TP_GetAutoCopyUsers <- function(P1_userID)  {
 
   http  <- "www.tradingpal.com/api/users/"
   http2 <- paste(http,P1_userID,sep="")
@@ -240,7 +251,7 @@ return(Final) }
 # -- ---------------------------------------- GET /api/users/[user-id]/account -- 12 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
-GetAccountInfo <- function(P0_Token,P1_userID) {
+TP_GetAccountInfo <- function(P0_Token,P1_userID) {
   
   http  <- "www.tradingpal.com/api/users/"
   http2 <- paste(http,P1_userID,sep="")
@@ -255,7 +266,7 @@ return(RetJson) }
 # -- ---------------------------------------- GET /api/users/[user-id]/account -- 13 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
-GetAccountBalance <- function(P0_Token,P1_userID) {
+TP_GetAccountBalance <- function(P0_Token,P1_userID) {
   
   http  <- "www.tradingpal.com/api/users/"
   http2 <- paste(http,P1_userID,sep="")
@@ -274,7 +285,7 @@ return(RetJson) }
 # -- -------------------------------------------------------------------------- -- 1 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-Master_GetUserType <- function(P0_MasterToken,P1_UserId) {
+TP_Master_GetUserType <- function(P0_MasterToken,P1_UserId) {
   
   http  <- "http://www.tradingpal.com/api/users/"
   http1 <- paste(http,P1_UserId,sep="")
@@ -292,7 +303,7 @@ return(RetJson) }
 # -- -------------------------------------------------------------------------- -- 2 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-Master_GetTradeInfo <- function(P0_MasterToken,P1_tradeID,P2_userID){
+TP_Master_GetTradeInfo <- function(P0_MasterToken, P1_tradeID, P2_userID){
   
   http  <- "www.tradingpal.com/api/trades/"
   http2 <- paste(http,P1_tradeID,sep="")
@@ -311,25 +322,30 @@ return(RetJson) }
 # -- -------------------------------------------------------------------------- -- 3 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-Master_GetAccountBalance <- function(P0_MasterToken,P1_userID) {
+TP_Master_GetAccountBalance <- function(P0_MasterToken, P1_UserId) {
   
   http  <- "www.tradingpal.com/api/users/"
-  http2 <- paste(http,P1_userID,sep="")
+  http2 <- paste(http,P1_UserId,sep="")
   http3 <- paste(http2,"/account/balance?token=",sep="")
   http4 <- paste(http3,P0_MasterToken,sep="")
   http5 <- paste(http4,"&user=",sep="")
-  httpf <- paste(http5,P1_userID,sep="")
+  httpf <- paste(http5,P1_UserId,sep="")
   
   PF <- httpGET(httpf, style="POST", .opts=list(ssl.verifypeer = TRUE))
   RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
   
 return(RetJson) }
 
+Res1 <- TP_Master_GetAccountBalance(P0_MasterToken = MasterToken, P1_UserId = U1)
+Res2 <- TP_Master_GetAccountBalance(P0_MasterToken = MasterToken, P1_UserId = U2)
+Res3 <- TP_Master_GetAccountBalance(P0_MasterToken = MasterToken, P1_UserId = U3)
+Res4 <- TP_Master_GetAccountBalance(P0_MasterToken = MasterToken, P1_UserId = U4)
+
 # -- Información de Cuenta ---------------------------------------------------- ------- #
 # -- -------------------------------------------------------------------------- -- 4 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-Master_GetAccountInfo <- function(P0_MasterToken,P1_userID) {
+TP_Master_GetAccountInfo <- function(P0_MasterToken,P1_userID) {
   http  <- "www.tradingpal.com/api/users/"
   http2 <- paste(http,P1_userID,sep="")
   http3 <- paste(http2,"/account?token=",sep="")
@@ -346,7 +362,7 @@ return(RetJson) }
 # -- ----------------------------------------- GET /api/users/[user-id]/account -- 5 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
-Master_GetJointHist <- function(P0_MasterToken, P1_TraderID1,P2_UserID2) {
+TP_Master_GetJointHist <- function(P0_MasterToken, P1_TraderID1, P2_UserID2) {
   
   http1 <- "http://www.tradingpal.com/api/users/"
   http2 <- paste(http1,P2_UserID2,sep="")
