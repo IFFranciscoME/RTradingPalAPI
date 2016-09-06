@@ -325,11 +325,6 @@ TP_Master_GetAccountBalance <- function(P0_MasterToken, P1_UserId) {
   
 return(RetJson) }
 
-Res1 <- TP_Master_GetAccountBalance(P0_MasterToken = MasterToken, P1_UserId = U1)
-Res2 <- TP_Master_GetAccountBalance(P0_MasterToken = MasterToken, P1_UserId = U2)
-Res3 <- TP_Master_GetAccountBalance(P0_MasterToken = MasterToken, P1_UserId = U3)
-Res4 <- TP_Master_GetAccountBalance(P0_MasterToken = MasterToken, P1_UserId = U4)
-
 # -- Información de Cuenta ---------------------------------------------------- ------- #
 # -- -------------------------------------------------------------------------- -- 4 -- #
 # -- -------------------------------------------------------------------------- ------- #
