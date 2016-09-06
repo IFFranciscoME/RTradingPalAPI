@@ -5,17 +5,6 @@
 # -- License: GNU General Public License ------------------------------------------- -- #
 # -- ------------------------------------------------------------------------------- -- #
 
-U1 <- "0e2bc5fb-35ee-4b4f-869c-ae94d5e40eae" # Pelham Jenkins
-U2 <- "cd2b1ea1-bcb4-40a3-91f9-3c3eac6c4566" # Javier Moreno
-U3 <- "5b0c8e0f-3f64-4089-8f94-96c573b11a9e" # Jose Barba
-U4 <- "5441b58e-b028-4e5c-8ad5-68390d1829b2" # Jorge Holguin
-
-MT1 <- "77cae42a7d8dd67bf34a40e9ee41e7cabec5eec36d1fee599903cb1d1f30c9aa00425"
-MT2 <- "aadb7f9ebe1a6b80fa4ec5b4c9dd20f8c6bdd5855e102f3aabe1439b0e933630cb2d0"
-MT3 <- "82055e4bfcaa6cf9a155529a4f5ae88c1ca1ea2f5083791da97661d8f3f3b1c3ca96d"
-MT4 <- "2b18d52364b05e238"
-MasterToken <- as.character(paste(paste(paste(MT1,MT2,sep=""),MT3,sep=""),MT4,sep=""))
-
 # -- Lista de funciones contenidas en este codigo para API Trading Pal ------------- -- #
 
 # -- Obtener Token de validacion ---------------------------------------------- ------- #
