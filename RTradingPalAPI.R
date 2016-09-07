@@ -90,8 +90,7 @@ return(RJson) }
 # -- -------------------------------------------------------------------------- ------- #
 
 TP_GetTradersHist <- function(UserID) {
-  # UserID <- "cd2b1ea1-bcb4-40a3-91f9-3c3eac6c4566" # Javier Moreno:  Live-User
-  # UserID <- "5b0c8e0f-3f64-4089-8f94-96c573b11a9e"
+  
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF  <- paste(http1,"/trades/closed",sep="")
   Query  <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
@@ -131,10 +130,17 @@ TP_GetTradersHist <- function(UserID) {
   
   } else {
 
-    ifelse(Bandera == 11, 
+    if(Bandera == 11) {
        
-           DataM <- RJson,
-           DataM <- data.frame(matrix(nrow=1,ncol=14,data=0))) # Si no hay historico
+           DataM <- data.frame(RJson$open$time, RJson$op_type, RJson$symbol, RJson$ticket,
+                          RJson$sl, RJson$tp, RJson$close$time, RJson$close$price, 
+                          RJson$commission, RJson$result$pnl_currency,
+                          RJson$result$pnl_pips)
+           colnames(DataM) <- c("Open.Time","Op.Type","Symbol","Ticket","Sl","Tp",
+                                "Close.Time", "Close.Price","Commission","PnL.Currency",
+                                "PnL.Pips")
+           
+    } else DataM <- data.frame(matrix(nrow=1,ncol=14,data=0)) # Si no hay historico
     }
   } else 
     
