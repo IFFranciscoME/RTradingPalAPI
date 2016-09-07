@@ -90,11 +90,16 @@ return(RJson) }
 # -- -------------------------------------------------------------------------- ------- #
 
 TP_GetTradersHist <- function(UserID) {
-
+  
+  UserID <- "5b0c8e0f-3f64-4089-8f94-96c573b11a9e" # Jose Barba:     Live-User
+  UserID <- "0e2bc5fb-35ee-4b4f-869c-ae94d5e40eae" # Pelham Jenkins: Demo-User
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF  <- paste(http1,"/trades/closed",sep="")
   Query  <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
   RJson  <- fromJSON(Query, simplifyDataFrame = TRUE)
+  Bandera <- as.numeric(length(RJson[1,]))
+  
+  if(Bandera == 14) { # si la cuenta fue DEMO
   
   DataM <- data.frame(RJson$id,RJson$op_type,RJson$symbol,
                       as.POSIXct(as.numeric(RJson$open$time)/1000, origin="1970-01-01"),
@@ -111,6 +116,7 @@ TP_GetTradersHist <- function(UserID) {
                       ifelse(is.null(RJson$copy_to),0,RJson$copy_to),
                       ifelse(is.null(RJson$joint),0,RJson$joint),
                       ifelse(is.null(RJson$joint_trade),0,RJson$joint_trade))
+  
   colnames(DataM) <- c("OrderID","OrderType","Symbol",
                        "Open.TimeStamp", "Open.Price",
                        "Close.TimeStamp", "Close.Price",
@@ -120,6 +126,16 @@ TP_GetTradersHist <- function(UserID) {
                        "StopLoss", "TakeProfit",
                        "RisPerPoint", "RiskInPips",
                        "UserID", "CopyFrom", "CopyTo", "Joint", "JointOrder")
+  
+  } else {
+
+    if(Bandera == 11) { # Si la cuenta fue real
+      
+       DataM <- RJson
+       
+    } else DataM <- data.frame(matrix(nrow=1,ncol=14,data=0)) # Si no hay historico
+    
+  }
 
 return(DataM) }
 
