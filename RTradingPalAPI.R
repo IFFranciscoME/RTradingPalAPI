@@ -118,14 +118,13 @@ return(RJson) }
                       ifelse(is.null(RJson$joint_trade),0,RJson$joint_trade))
   
   colnames(DataM) <- c("ID","Type","Symbol",
-                       "OpenTime", "OpenPrice",
-                       "CloseTime", "ClosePrice",
-                       "Duration(Secs)",
-                       "PnLCurrency", "PnLPips",
+                       "Open.T", "Open.P",
+                       "Close.T", "Close.P",
+                       "Duration.S",
+                       "PnL1", "PnL2",
                        "Lots", "Margin", "AFM",
                        "SL", "TP",
                        "UserID", "CopyFrom", "CopyTo", "Joint", "JointOrder")
-  
   } else {
 
     if(Bandera == 11) {
