@@ -90,11 +90,15 @@ return(RJson) }
 # -- -------------------------------------------------------------------------- ------- #
 
 TP_GetTradersHist <- function(UserID) {
-  
+  # UserID <- "cd2b1ea1-bcb4-40a3-91f9-3c3eac6c4566" # Javier Moreno:  Live-User
+  # UserID <- "5b0c8e0f-3f64-4089-8f94-96c573b11a9e"
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF  <- paste(http1,"/trades/closed",sep="")
   Query  <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
   RJson  <- fromJSON(Query, simplifyDataFrame = TRUE)
+  
+  if(class(RJson) == "data.frame") {
+         
   Bandera <- as.numeric(length(RJson[1,]))
   
   if(Bandera == 14) { # si la cuenta fue DEMO
@@ -127,13 +131,14 @@ TP_GetTradersHist <- function(UserID) {
   
   } else {
 
-    if(Bandera == 11) { # Si la cuenta fue real
-      
-       DataM <- RJson
+    ifelse(Bandera == 11, 
        
-    } else DataM <- data.frame(matrix(nrow=1,ncol=14,data=0)) # Si no hay historico
+           DataM <- RJson,
+           DataM <- data.frame(matrix(nrow=1,ncol=14,data=0))) # Si no hay historico
+    }
+  } else 
     
-  }
+    DataM <- data.frame(matrix(nrow=1,ncol=14,data=0)) # Si no hay historico
 
 return(DataM) }
 
