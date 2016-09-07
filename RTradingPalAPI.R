@@ -122,7 +122,7 @@ return(RJson) }
                        "CloseTime", "ClosePrice",
                        "Duration(Secs)",
                        "PnLCurrency", "PnLPips",
-                       "Lots", "Margin", "AccountFreeMargin",
+                       "Lots", "Margin", "AFM",
                        "SL", "TP",
                        "UserID", "CopyFrom", "CopyTo", "Joint", "JointOrder")
   
