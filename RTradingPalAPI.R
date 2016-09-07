@@ -91,8 +91,6 @@ return(RJson) }
 
 TP_GetTradersHist <- function(UserID) {
   
-  UserID <- "5b0c8e0f-3f64-4089-8f94-96c573b11a9e" # Jose Barba:     Live-User
-  UserID <- "0e2bc5fb-35ee-4b4f-869c-ae94d5e40eae" # Pelham Jenkins: Demo-User
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF  <- paste(http1,"/trades/closed",sep="")
   Query  <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
