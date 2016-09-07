@@ -111,21 +111,19 @@ TP_GetTradersHist <- function(UserID) {
                       RJson$result$pnl_currency,RJson$result$pnl_pips,
                       RJson$lots,RJson$margin,RJson$free_margin,
                       RJson$sl,RJson$tp,
-                      RJson$open$amount_risk_per_point, RJson$open$risk_in_pips,
                       RJson$user,
                       ifelse(is.null(RJson$from),0,RJson$from),
                       ifelse(is.null(RJson$copy_to),0,RJson$copy_to),
                       ifelse(is.null(RJson$joint),0,RJson$joint),
                       ifelse(is.null(RJson$joint_trade),0,RJson$joint_trade))
   
-  colnames(DataM) <- c("OrderID","OrderType","Symbol",
-                       "Open.TimeStamp", "Open.Price",
-                       "Close.TimeStamp", "Close.Price",
-                       "OrderDurationInSecs",
-                       "PL.Currency", "PL.Pips",
-                       "Lots", "OrderMargin", "AccountFreeMargin",
-                       "StopLoss", "TakeProfit",
-                       "RisPerPoint", "RiskInPips",
+  colnames(DataM) <- c("ID","Type","Symbol",
+                       "OpenTime", "OpenPrice",
+                       "CloseTime", "ClosePrice",
+                       "Duration(Secs)",
+                       "PnLCurrency", "PnLPips",
+                       "Lots", "Margin", "AccountFreeMargin",
+                       "SL", "TP",
                        "UserID", "CopyFrom", "CopyTo", "Joint", "JointOrder")
   
   } else {
