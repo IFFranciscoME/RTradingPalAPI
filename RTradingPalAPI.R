@@ -89,7 +89,7 @@ return(RJson) }
 # --  GET /users/[uID]/trades/closed Returns close trades by traderID --------- -- 5 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-TP_GetTradersHist <- function(UserID) {
+  TP_GetTradersHist <- function(UserID) {
   
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF  <- paste(http1,"/trades/closed",sep="")
