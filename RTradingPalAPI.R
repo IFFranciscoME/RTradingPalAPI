@@ -73,11 +73,11 @@ return(Precios) }
 # -- -------------------------------------------------------------------------- ------- #
 
 TP_GetTrades <- function(UserID) {
-
+  UserID <- "0e2bc5fb-35ee-4b4f-869c-ae94d5e40eae" 
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF <- paste(http1,"/trades",sep="")
   Query <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
-  if(Query == ""){
+  if(class(Query) != "data.frame"){
     RJson <- data.frame(matrix(nrow=1,ncol=12,data=0))
     colnames(RJson) <- c("free_margin","id","isSelf","lots","margin","op_type",
                          "open","sl","symbol","tp","user","joint")
@@ -90,7 +90,7 @@ return(RJson) }
 # -- -------------------------------------------------------------------------- ------- #
 
   TP_GetTradersHist <- function(UserID) {
-  
+
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF  <- paste(http1,"/trades/closed",sep="")
   Query  <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
