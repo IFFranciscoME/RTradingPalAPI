@@ -73,7 +73,7 @@ return(Precios) }
 # -- -------------------------------------------------------------------------- ------- #
 
 TP_GetTrades <- function(UserID) {
-  UserID <- "0e2bc5fb-35ee-4b4f-869c-ae94d5e40eae" 
+
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF <- paste(http1,"/trades",sep="")
   Query <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
