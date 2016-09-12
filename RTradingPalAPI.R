@@ -73,14 +73,16 @@ return(Precios) }
 # -- -------------------------------------------------------------------------- ------- #
 
 TP_GetTrades <- function(UserID) {
-
+ 
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
-  httpF <- paste(http1,"/trades",sep="")
-  Query <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
-  if(class(Query) != "data.frame"){
+  httpF  <- paste(http1,"/trades",sep="")
+  Query  <- getURL(httpF, cainfo = system.file("CurlSSL","cacert.pem", package="RCurl"))
+
+  if(nchar(as.character(Query)) == 0){
     RJson <- data.frame(matrix(nrow=1,ncol=12,data=0))
     colnames(RJson) <- c("free_margin","id","isSelf","lots","margin","op_type",
                          "open","sl","symbol","tp","user","joint")
+    
     } else RJson <- fromJSON(Query, simplifyDataFrame = TRUE)
 
 return(RJson) }
