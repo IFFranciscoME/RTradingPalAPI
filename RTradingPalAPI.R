@@ -330,6 +330,7 @@ return(RetJson) }
 # -- -------------------------------------------------------------------------- ------- #
 
 Master_GetAccountInfo <- function(P0_MasterToken,P1_userID) {
+  
   http  <- "www.tradingpal.com/api/users/"
   http2 <- paste(http,P1_userID,sep="")
   http3 <- paste(http2,"/account?token=",sep="")
