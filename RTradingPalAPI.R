@@ -280,15 +280,27 @@ return(RetJson) }
 # -- ------------------------------------------------------------------------- -------- #
 
 TP_GetAccountBalance <- function(P0_Token,P1_userID) {
-  
+
   http  <- "www.tradingpal.com/api/users/"
   http2 <- paste(http,P1_userID,sep="")
   http3 <- paste(http2,"/account/balance?token=",sep="")
   httpf <- paste(http3,P0_Token,sep="")
   PF <- httpGET(httpf, style="POST", .opts=list(ssl.verifypeer = TRUE))
   RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
-  
+
 return(RetJson) }
+
+# -- Publicar en Muro de Usuario --------------------------------------------- -------- #
+# -- ----------------------------------------  -- 14 -- #
+# -- ------------------------------------------------------------------------- -------- #
+
+# Pendiente
+
+# -- Publicar en Muro de Instrumento ----------------------------------------- -------- #
+# -- ----------------------------------------  -- 15 -- #
+# -- ------------------------------------------------------------------------- -------- #
+
+# Pendiente
 
 # -- -------------------------------------------------------------------------- ------- #
 # --  Funciones que utilizan MASTER TOKEN --------------------------------------------- #
