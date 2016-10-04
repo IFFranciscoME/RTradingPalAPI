@@ -294,6 +294,24 @@ return(RetJson) }
 # -- ----------------------------------------  -- 14 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
+TP_PostUserWall <- function(P0_Token, P1_Texto, P2_HashTags, P3_PeopleTags){
+  
+  Rep1 <- length(P2_HashTags)
+  
+  for(i in 1:Rep1) P1_Texto <- paste(P1_Texto, paste("#",P2_HashTags[i], sep=""), sep=" ")
+  
+  http  <- "www.tradingpal.com/api/posts/?token="
+  http2 <- paste(http, P0_Token, sep="")
+  Param <- list(content = P1_Texto, tags = P2_HashTags)
+  PF <- postForm(http2, style="POST", .params=Param, .opts=list(ssl.verifypeer = TRUE))
+
+}
+
+
+TP_PostUserWall(P0_Token = A01_PELHAM_BJ$Token$Token,
+                P2_HashTags = c("AlgoTrading","Forex"),
+                P1_Texto = "Texto de contenido a las 18.55")
+
 # Pendiente
 
 # -- Publicar en Muro de Instrumento ----------------------------------------- -------- #
