@@ -91,7 +91,7 @@ return(RJson) }
 # --  GET /users/[uID]/trades/closed Returns close trades by traderID --------- -- 5 -- #
 # -- -------------------------------------------------------------------------- ------- #
 
-  TP_GetTradersHist <- function(UserID) {
+TP_GetTradersHist <- function(UserID) {
 
   http1  <- paste("http://www.tradingpal.com/api/users/",UserID,sep="")
   httpF  <- paste(http1,"/trades/closed",sep="")
@@ -306,11 +306,6 @@ TP_PostUserWall <- function(P0_Token, P1_Texto, P2_HashTags, P3_PeopleTags){
   PF <- postForm(http2, style="POST", .params=Param, .opts=list(ssl.verifypeer = TRUE))
 
 }
-
-
-TP_PostUserWall(P0_Token = A01_PELHAM_BJ$Token$Token,
-                P2_HashTags = c("AlgoTrading","Forex"),
-                P1_Texto = "Texto de contenido a las 18.55")
 
 # Pendiente
 
