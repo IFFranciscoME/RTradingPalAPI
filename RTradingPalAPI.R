@@ -294,7 +294,7 @@ return(RetJson) }
 # -- ----------------------------------------  -- 14 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
-TP_PostUserWall <- function(P0_Token, P1_Texto, P2_HashTags, P3_PeopleTags){
+TP_PostUserWall <- function(P0_Token, P1_Texto, P2_HashTags)  {
   
   Rep1 <- length(P2_HashTags)
   
@@ -305,7 +305,7 @@ TP_PostUserWall <- function(P0_Token, P1_Texto, P2_HashTags, P3_PeopleTags){
   Param <- list(content = P1_Texto, tags = P2_HashTags)
   PF <- postForm(http2, style="POST", .params=Param, .opts=list(ssl.verifypeer = TRUE))
 
-}
+return(PF)  }
 
 # Pendiente
 
