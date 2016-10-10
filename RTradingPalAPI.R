@@ -252,11 +252,20 @@ TP_GetAutoCopyUsers <- function(P1_userID)  {
   http2 <- paste(http,P1_userID,sep="")
   httpf <- paste(http2,"/relations/jointed_by",sep="")
   PF <- httpGET(httpf, style="POST", .opts=list(ssl.verifypeer = TRUE))
-  RetJson <- fromJSON(PF, simplifyDataFrame = TRUE)
-  DF <- data.frame(do.call(rbind.data.frame, RetJson))
-  Final <- data.frame(row.names(DF),DF[1])
-  row.names(Final) <- NULL
-  colnames(Final) <- c("UID","Riesgo")
+
+  Resultado <- try(RetJson <- fromJSON(PF, simplifyDataFrame = TRUE),
+                 silent = TRUE)
+
+  if(class(Resultado) == "try-error"){
+    Final <- "Sin Copiadores"
+  }
+  
+  else {
+    DF <- data.frame(do.call(rbind.data.frame, RetJson))
+    Final <- data.frame(row.names(DF),DF[1])
+    row.names(Final) <- NULL
+    colnames(Final) <- c("UID","Riesgo")
+  }
 
 return(Final) }
 
@@ -291,14 +300,14 @@ TP_GetAccountBalance <- function(P0_Token,P1_userID) {
 return(RetJson) }
 
 # -- Publicar en Muro de Usuario --------------------------------------------- -------- #
-# -- ----------------------------------------  -- 14 -- #
+# -- ------------------------------------------------- POST /api/posts/?token= -- 14 -- #
 # -- ------------------------------------------------------------------------- -------- #
 
 TP_PostUserWall <- function(P0_Token, P1_Texto, P2_HashTags)  {
   
   Rep1 <- length(P2_HashTags)
   
-  for(i in 1:Rep1) P1_Texto <- paste(P1_Texto, paste("#",P2_HashTags[i], sep=""), sep=" ")
+  for(i in 1:Rep1) P1_Texto <- paste(P1_Texto, P2_HashTags, sep=" ")
   
   http  <- "www.tradingpal.com/api/posts/?token="
   http2 <- paste(http, P0_Token, sep="")
